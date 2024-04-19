@@ -4,8 +4,9 @@ from config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
-db.init_app(app)
+
 with app.app_context():
+    db.init_app(app)
     db.create_all()
 
 @app.route('/add_to_cart', methods=['POST'])
