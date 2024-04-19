@@ -35,5 +35,16 @@ def get_cart_items(user_id):
         })
     return jsonify(cart_data), 200
 
+@app.route('/delete_cart_items/<int:cart_id>', methods=['DELETE'])
+def delete_cart_item(cart_id):
+    cart_item = Cart.query.get(cart_id)
+    if not cart_item:
+        return jsonify({'error': 'Cart item not found'}), 404
+
+    db.session.delete(cart_item)
+    db.session.commit()
+
+    return jsonify({'message': 'Cart item deleted successfully'})
+
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0",port=5000, debug=True)
