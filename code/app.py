@@ -17,10 +17,12 @@ def add_to_cart():
         product_id=data['product_id'],
         order_quantity=data['order_quantity']
     )
-    db.session.add(cart_item)
-    db.session.commit()
-    print(cart_item)
-    return jsonify({"message": "Item added to cart successfully"}), 201
+    try:
+        db.session.add(cart_item)
+        db.session.commit()
+        return jsonify({"message": "Item added to cart successfully"}), 201
+    except Exception as e:
+        return jsonify({'error while adding item to cart': str(e)}), 500
 
 @app.route('/cart_items/<int:user_id>', methods=['GET'])
 def get_cart_items(user_id):
@@ -41,10 +43,13 @@ def delete_cart_item(cart_id):
     if not cart_item:
         return jsonify({'error': 'Cart item not found'}), 404
 
-    db.session.delete(cart_item)
-    db.session.commit()
+    try:
+        db.session.delete(cart_item)
+        db.session.commit()
+        return jsonify({'message': 'Cart item deleted successfully'})
+    except Exception as e:
+        return jsonify({'error while deleting item from cart': str(e)}), 500
 
-    return jsonify({'message': 'Cart item deleted successfully'})
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0",port=5000, debug=True)
