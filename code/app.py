@@ -51,5 +51,9 @@ def delete_cart_item(cart_id):
         return jsonify({'error while deleting item from cart': str(e)}), 500
 
 
+@app.route('/cart_check>', methods=['GET'])
+def cart_check():
+    return "Cart is working"
+
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",port=5000, debug=True)
+    app.run(host="0.0.0.0", debug=True)

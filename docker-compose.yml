@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  app-cart-service:
+    restart: unless-stopped
+    build: ./code
+    environment:
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_DATABASE: 'scalable'
+    ports:
+      - 8091:5000
+    volumes:
+      - ./code:/app
+    command: python ./app.py
+
+
+
+volumes:
+    scalable-flask-db:
+      driver: local
